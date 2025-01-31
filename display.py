@@ -93,7 +93,7 @@ while running:
 
     
     # Display average gene values
-    gene_text = "Avg Genes: " + ", ".join(f"{val:.2f}" for val in avg_genes)
+    gene_text = "Avg Genes: " + ", ".join(f"{val:.3f}" for val in avg_genes)
     gene_surface = font.render(gene_text, True, (255, 255, 255))
     screen.blit(gene_surface, (10, HEIGHT - FONT_SIZE - 40))
 

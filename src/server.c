@@ -117,7 +117,7 @@ void *agent_updater(void *arg) {
     (void)arg;  // Unused parameter
     while (1) {
         update_agents(agents);
-        usleep(1);  // Sleep for 100ms (100,000 microseconds)
+        usleep(100000);  // Sleep for 100ms (100,000 microseconds)
     }
     return NULL;
 }
