@@ -40,11 +40,11 @@ void update_agents(Agent agents[]) {
         }
 
         if ((float)(rand() % 100) / 100.0f < agents[i].genes[0]) {
-            agents[i].x += (float)(rand() % 10000) / 10000.0f - 0.5f;
+            agents[i].x += 0.1f * ((float)(rand() % 10000) / 10000.0f - 0.5f);
         }
 
         if ((float)(rand() % 100) / 100.0f < agents[i].genes[1]) {
-            agents[i].y += (float)(rand() % 10000) / 10000.0f - 0.5f;
+            agents[i].y += 0.1f * ((float)(rand() % 10000) / 10000.0f - 0.5f);
         }
 
         if (agents[i].x > 100.0f) {
@@ -93,8 +93,8 @@ void update_agents(Agent agents[]) {
                     agents[lowest_food_index].genes[i] = 0.0f;
                 }
 
-                if (rand() % 3 == 0) {
-                    agents[lowest_food_index].genes[i] = (float)(rand() % 100) / 100.0f;
+                if (rand() % 2 == 0) {
+                    agents[lowest_food_index].genes[i] = (float)(rand() % 1000) / 1000.0f;
                 }
             }
 
