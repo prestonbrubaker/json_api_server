@@ -37,11 +37,11 @@ void update_agents(Agent agents[]) {
         }
 
         if ((float)(rand() % 100) / 100.0f < agents[i].genes[0]) {
-            agents[i].x += (float)(rand() % 100) / 100.0f - 0.5f;
+            agents[i].x += (float)(rand() % 1000) / 1000.0f - 0.5f;
         }
 
         if ((float)(rand() % 100) / 100.0f < agents[i].genes[1]) {
-            agents[i].y += (float)(rand() % 100) / 100.0f - 0.5f;
+            agents[i].y += (float)(rand() % 1000) / 1000.0f - 0.5f;
         }
 
         if (agents[i].x > 100.0f) {
