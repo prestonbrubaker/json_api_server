@@ -27,6 +27,8 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count);
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
                                 const char *url, const char *method, const char *version,
                                 const char *upload_data, size_t *upload_data_size, void **con_cls);
-void log_callback(void *cls, const char *fmt, va_list ap);  // Corrected prototype
+void log_callback(void *cls, const char *fmt, va_list ap);
+void panic_callback(void *cls, const char *file, unsigned int line, const char *reason);
+
 
 #endif // SERVER_H

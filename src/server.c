@@ -72,17 +72,18 @@ void log_callback(void *cls, const char *fmt, va_list ap) {
 }
 
 
+void panic_callback(void *cls, const char *file, unsigned int line, const char *reason) {
+    (void)cls; // Avoid unused parameter warning
+    fprintf(stderr, "[libmicrohttpd] Panic in %s:%u: %s\n", file, line, reason);
+}
+
 int main() {
     generate_agents(agents, AGENT_COUNT);
 
     struct MHD_Daemon *daemon;
 
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
-                          PORT,
-                          NULL, NULL,
-                          &request_handler, NULL,
-                          MHD_OPTION_END);
-
+                              PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
 
     if (NULL == daemon) {
         fprintf(stderr, "Failed to start server\n");
@@ -90,7 +91,7 @@ int main() {
     }
 
     // Attach log function correctly
-    MHD_set_panic_func(log_callback, NULL);  // Fix: Removed incorrect `daemon` argument
+    MHD_set_panic_func(panic_callback, NULL);  // Fix: Corrected function name
 
     printf("Server running on http://0.0.0.0:%d (Externally accessible)\n", PORT);
     printf("Press Enter to stop...\n");
