@@ -55,6 +55,12 @@ void update_agents(Agent agents[]) {
         if (rand() % 10 == 0 && agents[i].food > 0) {
             agents[i].food--;
         }
-
+        if (rand() % 2 == 0) {
+            int rand_x = rand() % FOOD_TILES_ACROSS;
+            int rand_y = rand() % FOOD_TILES_ACROSS;
+            if (food_grid[rand_x][rand_y] < 100) {
+                food_grid[rand_x][rand_y];
+            }
+        }
     }
 }
