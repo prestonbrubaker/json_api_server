@@ -27,6 +27,9 @@ void update_agents(Agent agents[]) {
         int agent_index_x = (int)(agents[i].x / (100.0f / FOOD_TILES_ACROSS));
         int agent_index_y = (int)(agents[i].y / (100.0f / FOOD_TILES_ACROSS));
 
+        if (agent_index_x >= FOOD_TILES_ACROSS) agent_index_x = FOOD_TILES_ACROSS - 1;
+        if (agent_index_y >= FOOD_TILES_ACROSS) agent_index_y = FOOD_TILES_ACROSS - 1;
+
         
         if (food_grid[agent_index_x][agent_index_y] > 0) {
             food_grid[agent_index_x][agent_index_y]--;
@@ -84,6 +87,11 @@ void update_agents(Agent agents[]) {
             agents[lowest_food_index].genes[i] = agents[j].genes[i];
             if (i==k && rand() % 2) {
                 agents[lowest_food_index].genes[i] += (0.05f * 2.0f * ((float)(rand() % 100) / 100.0f - 0.5f));
+                if (agents[lowest_food_index].genes[i] > 1.0f) {
+                    agents[lowest_food_index].genes[i] = 1.0f;
+                } else if (agents[lowest_food_index].genes[i] < 0.0f) {
+                    agents[lowest_food_index].genes[i] = 0.0f;
+                }
             }
         }
     }
