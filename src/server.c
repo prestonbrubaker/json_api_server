@@ -20,7 +20,7 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
 
         for (int j = 0; j < 10; j++) {
             char gene[16];
-            snprintf(gene, sizeof(gene), "%.2f", agents[i].genes[j], (j < 9) ? ", " : "");
+            snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
             strcat(buffer + offset, gene);
             offset += strlen(gene);
         }
