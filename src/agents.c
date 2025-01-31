@@ -100,6 +100,8 @@ void update_agents(Agent agents[]) {
 
             
         }
+
+        agents[lowest_food_index].food = 100;
     }
 
 }
