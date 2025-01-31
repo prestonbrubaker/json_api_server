@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -I include
+CFLAGS = -Wall -Wextra -O2 -I include -Wno-unused-parameter
 LIBS = -lmicrohttpd
 
 # Directories
@@ -16,9 +16,12 @@ TARGET = $(BUILD_DIR)/json_server
 all: $(TARGET)
 
 # Compile source files into object files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(BUILD_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Create the build directory if it doesn't exist
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 # Link object files into the final executable
 $(TARGET): $(OBJ)
@@ -31,3 +34,7 @@ clean:
 # Run the server
 run: all
 	./$(TARGET)
+
+# Install dependencies (Ubuntu)
+install:
+	sudo apt update && sudo apt install -y libmicrohttpd-dev
