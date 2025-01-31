@@ -9,7 +9,7 @@
 #define PORT 5000
 #define AGENT_COUNT 5
 
-// Struct definition for agents
+// Struct definition for Agent
 typedef struct {
     float x;
     float y;
@@ -17,14 +17,16 @@ typedef struct {
     int genes[10];
 } Agent;
 
-// Global array of agents
+// Extern declaration of global agents array (DO NOT REDEFINE in server.c)
 extern Agent agents[AGENT_COUNT];
 
-// Function declarations
+// Function prototypes
 void generate_agents(Agent agents[], int count);
 void generate_json(char *buffer, size_t size, Agent agents[], int count);
-static int request_handler(void *cls, struct MHD_Connection *connection,
-                           const char *url, const char *method, const char *version,
-                           const char *upload_data, size_t *upload_data_size, void **con_cls);
+
+// Marking request_handler as `MHD_AccessHandlerCallback` for compatibility
+enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
+                                const char *url, const char *method, const char *version,
+                                const char *upload_data, size_t *upload_data_size, void **con_cls);
 
 #endif // SERVER_H

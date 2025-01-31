@@ -1,21 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <microhttpd.h>
-
 #include "server.h"
 
-#define PORT 5000
-#define AGENT_COUNT 5
-
-typedef struct {
-    float x;
-    float y;
-    int food;
-    int genes[10];
-} Agent;
-
-Agent agents[AGENT_COUNT];
+Agent agents[AGENT_COUNT];  // Define the global array (only here)
 
 // Function to generate random agent data
 void generate_agents(Agent agents[], int count) {
@@ -57,19 +42,19 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
     strcat(buffer + offset, "] }");
 }
 
-// HTTP response handler
-static int request_handler(void *cls, struct MHD_Connection *connection,
-                           const char *url, const char *method, const char *version,
-                           const char *upload_data, size_t *upload_data_size, void **con_cls) {
+// Fix: Ensure request_handler is defined correctly
+enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
+                                const char *url, const char *method, const char *version,
+                                const char *upload_data, size_t *upload_data_size, void **con_cls) {
     (void)cls; (void)url; (void)method; (void)version;
     (void)upload_data; (void)upload_data_size; (void)con_cls;
-
-    
 
     char json_response[4096];
     generate_json(json_response, sizeof(json_response), agents, AGENT_COUNT);
 
-    struct MHD_Response *response = MHD_create_response_from_buffer(strlen(json_response), (void *)json_response, MHD_RESPMEM_PERSISTENT);
+    struct MHD_Response *response = MHD_create_response_from_buffer(strlen(json_response),
+                                                                    (void *)json_response,
+                                                                    MHD_RESPMEM_PERSISTENT);
     int ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
     MHD_destroy_response(response);
 
@@ -77,14 +62,12 @@ static int request_handler(void *cls, struct MHD_Connection *connection,
 }
 
 int main() {
-
     generate_agents(agents, AGENT_COUNT);
-    
-    struct MHD_Daemon *daemon;
 
+    struct MHD_Daemon *daemon;
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
                               PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
-    
+
     if (NULL == daemon) {
         fprintf(stderr, "Failed to start server\n");
         return 1;
