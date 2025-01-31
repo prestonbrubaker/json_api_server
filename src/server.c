@@ -46,8 +46,10 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
                                 const char *url, const char *method, const char *version,
                                 const char *upload_data, size_t *upload_data_size, void **con_cls) {
-    (void)cls; (void)url; (void)method; (void)version;
-    (void)upload_data; (void)upload_data_size; (void)con_cls;
+    // Ensure non-null values to prevent crashes
+    if (!method) method = "UNKNOWN";
+    if (!url) url = "/";
+    if (!version) version = "HTTP/1.1";
 
     char json_response[4096];
     generate_json(json_response, sizeof(json_response), agents, AGENT_COUNT);
@@ -60,6 +62,7 @@ enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
 
     return (ret == MHD_YES) ? MHD_YES : MHD_NO;
 }
+
 
 // Function to handle logging (fixing old-style function declaration)
 void log_callback(void *cls, const char *fmt, va_list ap) {
@@ -75,7 +78,11 @@ int main() {
     struct MHD_Daemon *daemon;
 
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
-                              PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
+                          PORT,
+                          NULL, NULL,
+                          &request_handler, NULL,
+                          MHD_OPTION_END);
+
 
     if (NULL == daemon) {
         fprintf(stderr, "Failed to start server\n");
