@@ -78,7 +78,7 @@ void update_agents(Agent agents[]) {
             }
         }
         int k = rand() % 10;
-        j = rand() % AGENT_COUNT;
+        int j = rand() % AGENT_COUNT;
         for (int i=0;i<10;i++) {
             
             agents[lowest_food_index].genes[i] = agents[j].genes[i];
