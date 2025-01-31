@@ -68,11 +68,12 @@ void log_callback(void *cls, const char *fmt, va_list ap) {
     fprintf(stderr, "\n");
 }
 
+
 int main() {
     generate_agents(agents, AGENT_COUNT);
 
     struct MHD_Daemon *daemon;
-    
+
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
                               PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
 
@@ -81,8 +82,8 @@ int main() {
         return 1;
     }
 
-    // Attach log function
-    MHD_set_panic_func(daemon, log_callback, NULL);
+    // Attach log function correctly
+    MHD_set_panic_func(log_callback, NULL);  // Fix: Removed incorrect `daemon` argument
 
     printf("Server running on http://0.0.0.0:%d (Externally accessible)\n", PORT);
     printf("Press Enter to stop...\n");
