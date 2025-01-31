@@ -6,53 +6,92 @@ int food_grid[FOOD_TILES_ACROSS][FOOD_TILES_ACROSS];
 
 // Function to convert agent data to JSON
 void generate_json(char *buffer, size_t size, Agent agents[], int count) {
-    snprintf(buffer, size, "{ \"agents\": [");
-    size_t offset = strlen(buffer);
+    size_t offset = 0;
+    size_t remaining_size = size;
+
+    int written = snprintf(buffer + offset, remaining_size, "{ \"agents\": [");
+    if (written < 0 || (size_t)written >= remaining_size) return; // Buffer too small
+    offset += written;
+    remaining_size -= written;
 
     for (int i = 0; i < count; i++) {
-        char agent_json[2056];
-        snprintf(agent_json, sizeof(agent_json),
-                 "{ \"x\": %.2f, \"y\": %.2f, \"food\": %d, \"genes\": [",
-                 agents[i].x, agents[i].y, agents[i].food);
+        char agent_json[512];
+        int agent_written = snprintf(agent_json, sizeof(agent_json),
+                                     "{ \"x\": %.2f, \"y\": %.2f, \"food\": %d, \"genes\": [",
+                                     agents[i].x, agents[i].y, agents[i].food);
+        if (agent_written < 0 || (size_t)agent_written >= sizeof(agent_json)) return; // Shouldn't happen
+        if ((size_t)agent_written >= remaining_size) return; // Buffer too small
 
-        strcat(buffer + offset, agent_json);
-        offset += strlen(agent_json);
+        memcpy(buffer + offset, agent_json, agent_written);
+        offset += agent_written;
+        remaining_size -= agent_written;
 
         for (int j = 0; j < 10; j++) {
             char gene[16];
-            snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
-            strcat(buffer + offset, gene);
-            offset += strlen(gene);
+            int gene_written = snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
+            if (gene_written < 0 || (size_t)gene_written >= sizeof(gene)) return;
+            if ((size_t)gene_written >= remaining_size) return;
+
+            memcpy(buffer + offset, gene, gene_written);
+            offset += gene_written;
+            remaining_size -= gene_written;
         }
 
-        strcat(buffer + offset, "] }");
+        if ((size_t)4 >= remaining_size) return;
         if (i < count - 1) {
-            strcat(buffer + offset, ", ");
+            memcpy(buffer + offset, "], ", 3);
+            offset += 3;
+            remaining_size -= 3;
+        } else {
+            memcpy(buffer + offset, "]", 1);
+            offset += 1;
+            remaining_size -= 1;
         }
-        offset += strlen(buffer + offset);
     }
 
-    strcat(buffer + offset, "], \"food_grid\": [");
-    offset += strlen(buffer);
+    if ((size_t)12 >= remaining_size) return;
+    memcpy(buffer + offset, "], \"food_grid\": [", 17);
+    offset += 17;
+    remaining_size -= 17;
 
-    // Add food grid data
     for (int i = 0; i < FOOD_TILES_ACROSS; i++) {
-        strcat(buffer + offset, "[");
-        offset += strlen(buffer);
+        if ((size_t)2 >= remaining_size) return;
+        memcpy(buffer + offset, "[", 1);
+        offset += 1;
+        remaining_size -= 1;
 
         for (int j = 0; j < FOOD_TILES_ACROSS; j++) {
-            char food_value[16];
-            snprintf(food_value, sizeof(food_value), "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
-            strcat(buffer + offset, food_value);
-            offset += strlen(food_value);
+            char food_value[12];
+            int food_written = snprintf(food_value, sizeof(food_value), "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
+            if (food_written < 0 || (size_t)food_written >= sizeof(food_value)) return;
+            if ((size_t)food_written >= remaining_size) return;
+
+            memcpy(buffer + offset, food_value, food_written);
+            offset += food_written;
+            remaining_size -= food_written;
         }
 
-        strcat(buffer + offset, (i < FOOD_TILES_ACROSS - 1) ? "], " : "]");
-        offset += strlen(buffer + offset);
+        if ((size_t)3 >= remaining_size) return;
+        if (i < FOOD_TILES_ACROSS - 1) {
+            memcpy(buffer + offset, "], ", 3);
+            offset += 3;
+            remaining_size -= 3;
+        } else {
+            memcpy(buffer + offset, "]", 1);
+            offset += 1;
+            remaining_size -= 1;
+        }
     }
 
-    strcat(buffer + offset, "] }");
+    if ((size_t)2 >= remaining_size) return;
+    memcpy(buffer + offset, "] }", 3);
+    offset += 3;
+    remaining_size -= 3;
+
+    // Null-terminate the buffer
+    if (offset < size) buffer[offset] = '\0';
 }
+
 
 
 // Function to handle HTTP requests
