@@ -17,5 +17,17 @@ void update_agents(Agent agents[]) {
     for (int i = 0; i < AGENT_COUNT; i++) {
         agents[i].x += (float)(rand() % 100) / 100.0f - 0.5f;
         agents[i].y += (float)(rand() % 100) / 100.0f - 0.5f;
+
+        if (agents[i].x > 100.0f) {
+            agents[i].x = 100.0f;
+        } else if (agents[i].x < 0.0f) {
+            agents[i].x = 0.0f;
+        }
+
+        if (agents[i].y > 100.0f) {
+            agents[i].y = 100.0f;
+        } else if (agents[i].y < 0.0f) {
+            agents[i].y = 0.0f;
+        }
     }
 }
