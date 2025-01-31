@@ -41,7 +41,7 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
         offset += strlen(buffer);
 
         for (int j = 0; j < FOOD_TILES_ACROSS; j++) {
-            char food_value[12];
+            char food_value[256];
             snprintf(food_value, sizeof(food_value), "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
             strcat(buffer + offset, food_value);
             offset += strlen(food_value);
