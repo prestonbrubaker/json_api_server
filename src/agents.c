@@ -92,7 +92,13 @@ void update_agents(Agent agents[]) {
                 } else if (agents[lowest_food_index].genes[i] < 0.0f) {
                     agents[lowest_food_index].genes[i] = 0.0f;
                 }
+
+                if (rand() % 3 == 0) {
+                    agents[lowest_food_index].genes[i] = (float)(rand() % 100) / 100.0f;
+                }
             }
+
+            
         }
     }
 
