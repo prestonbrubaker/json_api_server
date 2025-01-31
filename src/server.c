@@ -1,6 +1,6 @@
 #include "server.h"
 
-Agent agents[AGENT_COUNT];  // Define the global array (only here)
+Agent agents[AGENT_COUNT];  // Define the global array
 
 // Function to generate random agent data
 void generate_agents(Agent agents[], int count) {
@@ -42,7 +42,7 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
     strcat(buffer + offset, "] }");
 }
 
-// Fix: Ensure request_handler is defined correctly
+// Function to handle HTTP requests
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
                                 const char *url, const char *method, const char *version,
                                 const char *upload_data, size_t *upload_data_size, void **con_cls) {
@@ -58,12 +58,12 @@ enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
     int ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
     MHD_destroy_response(response);
 
-    return ret;
+    return (ret == MHD_YES) ? MHD_YES : MHD_NO;
 }
 
-// Custom log function
+// Function to handle logging (fixing old-style function declaration)
 void log_callback(void *cls, const char *fmt, va_list ap) {
-    (void)cls;
+    (void)cls;  // Avoid unused parameter warning
     vfprintf(stderr, fmt, ap);
     fprintf(stderr, "\n");
 }
@@ -72,8 +72,7 @@ int main() {
     generate_agents(agents, AGENT_COUNT);
 
     struct MHD_Daemon *daemon;
-
-    // Start the server
+    
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
                               PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
 
