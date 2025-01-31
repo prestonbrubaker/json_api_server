@@ -59,7 +59,7 @@ void update_agents(Agent agents[]) {
             int rand_x = rand() % FOOD_TILES_ACROSS;
             int rand_y = rand() % FOOD_TILES_ACROSS;
             if (food_grid[rand_x][rand_y] < 100) {
-                food_grid[rand_x][rand_y];
+                food_grid[rand_x][rand_y]++;
             }
         }
     }
