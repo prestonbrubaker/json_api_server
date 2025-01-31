@@ -3,6 +3,8 @@
 #include <string.h>
 #include <microhttpd.h>
 
+#include "server.h"
+
 #define PORT 5000
 #define AGENT_COUNT 5
 
