@@ -11,7 +11,7 @@
 #include <time.h>
 
 #define PORT 5000
-#define AGENT_COUNT 5
+#define AGENT_COUNT 30
 #define FOOD_TILES_ACROSS 10
 
 // Struct definition for Agent
