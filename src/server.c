@@ -65,8 +65,9 @@ int main() {
     generate_agents(agents, AGENT_COUNT);
 
     struct MHD_Daemon *daemon;
-    daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
-                              PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
+    daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_DEBUG_LOG,
+                          PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
+
 
     if (NULL == daemon) {
         fprintf(stderr, "Failed to start server\n");
