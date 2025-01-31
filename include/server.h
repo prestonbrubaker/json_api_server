@@ -23,7 +23,7 @@ extern Agent agents[AGENT_COUNT];
 // Function prototypes
 void generate_agents(Agent agents[], int count);
 void generate_json(char *buffer, size_t size, Agent agents[], int count);
-void log_callback(void *cls, const char *fmt, va_list ap)
+void log_callback(void *cls, const char *fmt, va_list ap);
 
 // Marking request_handler as `MHD_AccessHandlerCallback` for compatibility
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
