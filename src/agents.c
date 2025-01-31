@@ -60,6 +60,7 @@ void update_agents(Agent agents[]) {
         }
 
         if (rand() % 100 < 25 && agents[i].food > 0) {
+            agents[i] *= 0.99f;
             agents[i].food--;
         }
         if (rand() % 2 == 0) {
