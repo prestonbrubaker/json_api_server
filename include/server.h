@@ -8,6 +8,7 @@
 #include <microhttpd.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <time.h>
 
 #define PORT 5000
 #define AGENT_COUNT 5

@@ -77,6 +77,8 @@ void *agent_updater(void *arg) {
 }
 
 int main() {
+
+    srand(time(NULL));
     generate_agents(agents);
 
     // Create a thread for updating agents
