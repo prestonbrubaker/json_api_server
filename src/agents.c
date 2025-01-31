@@ -67,4 +67,25 @@ void update_agents(Agent agents[]) {
             }
         }
     }
+
+    if (rand() % 100 == 0) {
+        int lowest_food = 100000;
+        int lowest_food_index = 0;
+        for (int i = 0; i < AGENT_COUNT; i++) {
+            if (agents[i].food < lowest_food) {
+                lowest_food = agents[i].food;
+                lowest_food_index = i;
+            }
+        }
+        int k = rand() % 10;
+        j = rand() % AGENT_COUNT;
+        for (int i=0;i<10;i++) {
+            
+            agents[lowest_food_index].genes[i] = agents[j].genes[i];
+            if (i==k && rand() % 2) {
+                agents[lowest_food_index].genes[i] += (0.05f * 2.0f * ((float)(rand() % 100) / 100.0f - 0.5f));
+            }
+        }
+    }
+
 }
