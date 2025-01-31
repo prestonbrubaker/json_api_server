@@ -20,17 +20,40 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
 
         for (int j = 0; j < 10; j++) {
             char gene[16];
-            snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
+            snprintf(gene, sizeof(gene), "%d%s", agents[i].genes[j], (j < 9) ? ", " : "");
             strcat(buffer + offset, gene);
             offset += strlen(gene);
         }
 
-        strcat(buffer + offset, (i < count - 1) ? "] }, " : "] }");
+        strcat(buffer + offset, "] }");
+        if (i < count - 1) {
+            strcat(buffer + offset, ", ");
+        }
+        offset += strlen(buffer + offset);
+    }
+
+    strcat(buffer + offset, "], \"food_grid\": [");
+    offset += strlen(buffer);
+
+    // Add food grid data
+    for (int i = 0; i < FOOD_TILES_ACROSS; i++) {
+        strcat(buffer + offset, "[");
+        offset += strlen(buffer);
+
+        for (int j = 0; j < FOOD_TILES_ACROSS; j++) {
+            char food_value[12];
+            snprintf(food_value, sizeof(food_value), "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
+            strcat(buffer + offset, food_value);
+            offset += strlen(food_value);
+        }
+
+        strcat(buffer + offset, (i < FOOD_TILES_ACROSS - 1) ? "], " : "]");
         offset += strlen(buffer + offset);
     }
 
     strcat(buffer + offset, "] }");
 }
+
 
 // Function to handle HTTP requests
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,

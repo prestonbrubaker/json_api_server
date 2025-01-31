@@ -1,7 +1,7 @@
 #include "server.h"
 
 
-void initialize_food_grid(int food_grid[][]) {
+void initialize_food_grid(int food_grid[FOOD_TILES_ACROSS][FOOD_TILES_ACROSS]) {
     for (int x=0; x<FOOD_TILES_ACROSS;x++) {
         for (inty=0;y<FOOD_TILES_ACROSS;y++) {
             food_grid[x][y] = 100;
