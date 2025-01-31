@@ -9,7 +9,7 @@ WIDTH, HEIGHT = 400, 400
 AGENT_SCALE_FACTOR = 4
 FOOD_GRID_SIZE = 10
 FOOD_CELL_SIZE = WIDTH // FOOD_GRID_SIZE  # Each cell is 40x40 pixels
-UPDATE_INTERVAL = 0.1  # 100ms
+UPDATE_INTERVAL = 0.05  # 50ms
 
 # Pygame setup
 pygame.init()
