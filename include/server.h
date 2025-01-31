@@ -33,7 +33,7 @@ extern int food_grid[FOOD_TILES_ACROSS][FOOD_TILES_ACROSS];
 
 // Function prototypes
 void generate_agents(Agent agents[]);
-void initialize_food_grid(int food_grid[][]);
+void initialize_food_grid(int food_grid[][FOOD_TILES_ACROSS]);
 void update_agents(Agent agents[]);
 void *agent_updater(void *arg);
 void generate_json(char *buffer, size_t size, Agent agents[], int count);
