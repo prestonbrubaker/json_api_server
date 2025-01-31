@@ -12,6 +12,7 @@
 
 #define PORT 5000
 #define AGENT_COUNT 5
+#define FOOD_TILES_ACROSS 10
 
 // Struct definition for Agent
 typedef struct {
@@ -21,10 +22,10 @@ typedef struct {
     float genes[10];
 } Agent;
 
-// Declare the global array
+// Declare the global arrays
 extern Agent agents[AGENT_COUNT];
 
-
+extern int food_grid[FOOD_TILES_ACROSS][FOOD_TILES_ACROSS];
 
 
 

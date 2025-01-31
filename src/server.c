@@ -1,8 +1,8 @@
 #include "server.h"
 
-Agent agents[AGENT_COUNT];  // Define the global array
+Agent agents[AGENT_COUNT];
 
-
+int food_grid[FOOD_TILES_ACROSS][FOOD_TILES_ACROSS];
 
 // Function to convert agent data to JSON
 void generate_json(char *buffer, size_t size, Agent agents[], int count) {
