@@ -61,18 +61,29 @@ enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
     return ret;
 }
 
+// Custom log function
+void log_callback(void *cls, const char *fmt, va_list ap) {
+    (void)cls;
+    vfprintf(stderr, fmt, ap);
+    fprintf(stderr, "\n");
+}
+
 int main() {
     generate_agents(agents, AGENT_COUNT);
 
     struct MHD_Daemon *daemon;
-    daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_DEBUG_LOG,
-                          PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
 
+    // Start the server
+    daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
+                              PORT, NULL, NULL, &request_handler, NULL, MHD_OPTION_END);
 
     if (NULL == daemon) {
         fprintf(stderr, "Failed to start server\n");
         return 1;
     }
+
+    // Attach log function
+    MHD_set_panic_func(daemon, log_callback, NULL);
 
     printf("Server running on http://0.0.0.0:%d (Externally accessible)\n", PORT);
     printf("Press Enter to stop...\n");
