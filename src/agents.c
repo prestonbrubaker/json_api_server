@@ -33,7 +33,7 @@ void update_agents(Agent agents[]) {
         
         if (food_grid[agent_index_x][agent_index_y] > 0) {
             food_grid[agent_index_x][agent_index_y]--;
-            if (agents[i].food < 49) {
+            if (agents[i].food < 10000) {
                 agents[i].food++;
             }
             
