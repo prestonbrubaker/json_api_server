@@ -86,7 +86,7 @@ void update_agents(Agent agents[]) {
             
             agents[lowest_food_index].genes[i] = agents[j].genes[i];
             if (i==k && rand() % 2) {
-                agents[lowest_food_index].genes[i] += (0.05f * 2.0f * ((float)(rand() % 100) / 100.0f - 0.5f));
+                agents[lowest_food_index].genes[i] += (0.01f * 2.0f * ((float)(rand() % 10000) / 10000.0f - 0.5f));
                 if (agents[lowest_food_index].genes[i] > 1.0f) {
                     agents[lowest_food_index].genes[i] = 1.0f;
                 } else if (agents[lowest_food_index].genes[i] < 0.0f) {
