@@ -8,7 +8,7 @@ void generate_agents(Agent agents[]) {
         agents[i].y = (float)(rand() % 100);
         agents[i].food = rand() % 50;
         for (int j = 0; j < 10; j++) {
-            agents[i].genes[j] = rand() % 10;
+            agents[i].genes[j] = (float)(rand() % 100) / 100.0f;
         }
     }
 }

@@ -18,7 +18,7 @@ typedef struct {
     float x;
     float y;
     int food;
-    int genes[10];
+    float genes[10];
 } Agent;
 
 // Declare the global array
