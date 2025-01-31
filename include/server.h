@@ -18,8 +18,14 @@ typedef struct {
     int genes[10];
 } Agent;
 
-// Declare the global array (DO NOT define it in the header file)
+// Declare the global array
 extern Agent agents[AGENT_COUNT];
+
+
+
+
+
+
 
 // Function prototypes
 void generate_agents(Agent agents[], int count);
