@@ -23,6 +23,19 @@ void generate_agents(Agent agents[]) {
 
 void update_agents(Agent agents[]) {
     for (int i = 0; i < AGENT_COUNT; i++) {
+
+        int agent_index_x = (int)(agents[i].x / 100.0f);
+        int agent_index_y = (int)(agents[i].y / 100.0f);
+        
+        if (food_grid[agent_index_x][agent_index_y] > 0) {
+            food_grid[agent_index_x][agent_index_y]--;
+            if (agents[i].food < 49) {
+                agents[i].food++;
+            }
+            
+        }
+
+
         agents[i].x += (float)(rand() % 100) / 100.0f - 0.5f;
         agents[i].y += (float)(rand() % 100) / 100.0f - 0.5f;
 
@@ -37,5 +50,10 @@ void update_agents(Agent agents[]) {
         } else if (agents[i].y < 0.0f) {
             agents[i].y = 0.0f;
         }
+
+        if (rand() % 10 == 0 && agents[i].food > 0) {
+            agents[i].food--;
+        }
+
     }
 }
