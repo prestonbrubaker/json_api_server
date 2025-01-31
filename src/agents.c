@@ -24,8 +24,8 @@ void generate_agents(Agent agents[]) {
 void update_agents(Agent agents[]) {
     for (int i = 0; i < AGENT_COUNT; i++) {
 
-        int agent_index_x = (int)(agents[i].x / 100.0f);
-        int agent_index_y = (int)(agents[i].y / 100.0f);
+        int agent_index_x = (int)(agents[i].x / 100.0f) * FOOD_TILES_ACROSS;
+        int agent_index_y = (int)(agents[i].y / 100.0f) * FOOD_TILES_ACROSS;
         
         if (food_grid[agent_index_x][agent_index_y] > 0) {
             food_grid[agent_index_x][agent_index_y]--;
