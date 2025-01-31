@@ -71,7 +71,7 @@ void update_agents(Agent agents[]) {
         }
     }
 
-    if (rand() % 1000 == 0) {
+    if (rand() % 10000 == 0) {
         int lowest_food = 100000;
         int lowest_food_index = 0;
         for (int i = 0; i < AGENT_COUNT; i++) {
