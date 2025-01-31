@@ -3,7 +3,7 @@
 #include <string.h>
 #include <microhttpd.h>
 
-#define PORT 5000
+#define PORT 5001
 #define AGENT_COUNT 5
 
 typedef struct {
@@ -62,7 +62,7 @@ static int request_handler(void *cls, struct MHD_Connection *connection,
     (void)cls; (void)url; (void)method; (void)version;
     (void)upload_data; (void)upload_data_size; (void)con_cls;
 
-    
+    generate_agents(agents, AGENT_COUNT);
 
     char json_response[4096];
     generate_json(json_response, sizeof(json_response), agents, AGENT_COUNT);
@@ -75,9 +75,6 @@ static int request_handler(void *cls, struct MHD_Connection *connection,
 }
 
 int main() {
-
-    generate_agents(agents, AGENT_COUNT);
-    
     struct MHD_Daemon *daemon;
 
     daemon = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
