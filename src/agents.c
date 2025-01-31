@@ -1,7 +1,15 @@
 #include "server.h"
 
 
-// Function to generate random agent data
+void initialize_food_grid(int food_grid[][]) {
+    for (int x=0; x<FOOD_TILES_ACROSS;x++) {
+        for (inty=0;y<FOOD_TILES_ACROSS;y++) {
+            food_grid[x][y] = 100;
+        }
+    }
+}
+
+
 void generate_agents(Agent agents[]) {
     for (int i = 0; i < AGENT_COUNT; i++) {
         agents[i].x = (float)(rand() % 100);

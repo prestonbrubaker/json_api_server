@@ -79,6 +79,7 @@ void *agent_updater(void *arg) {
 int main() {
 
     srand(time(NULL));
+    initialize_food_grid(food_grid);
     generate_agents(agents);
 
     // Create a thread for updating agents
