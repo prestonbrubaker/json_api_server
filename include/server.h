@@ -9,7 +9,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <time.h>
-#include <cmath.h>
+#include <math.h>
 
 #define PORT 5000
 #define AGENT_COUNT 100
