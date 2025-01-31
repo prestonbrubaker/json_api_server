@@ -10,87 +10,71 @@ void generate_json(char *buffer, size_t size, Agent agents[], int count) {
     size_t remaining_size = size;
 
     int written = snprintf(buffer + offset, remaining_size, "{ \"agents\": [");
-    if (written < 0 || (size_t)written >= remaining_size) return; // Buffer too small
+    if (written < 0 || (size_t)written >= remaining_size) return;
     offset += written;
     remaining_size -= written;
 
     for (int i = 0; i < count; i++) {
-        char agent_json[1024];
-        int agent_written = snprintf(agent_json, sizeof(agent_json),
-                                     "{ \"x\": %.2f, \"y\": %.2f, \"food\": %d, \"genes\": [",
-                                     agents[i].x, agents[i].y, agents[i].food);
-        if (agent_written < 0 || (size_t)agent_written >= sizeof(agent_json)) return; // Shouldn't happen
-        if ((size_t)agent_written >= remaining_size) return; // Buffer too small
+        char agent_json[512];
+        written = snprintf(agent_json, sizeof(agent_json),
+                           "{\"x\": %.2f, \"y\": %.2f, \"food\": %d, \"genes\": [",
+                           agents[i].x, agents[i].y, agents[i].food);
+        if (written < 0 || (size_t)written >= sizeof(agent_json)) return;
+        if ((size_t)written >= remaining_size) return;
 
-        memcpy(buffer + offset, agent_json, agent_written);
-        offset += agent_written;
-        remaining_size -= agent_written;
+        memcpy(buffer + offset, agent_json, written);
+        offset += written;
+        remaining_size -= written;
 
         for (int j = 0; j < 10; j++) {
             char gene[16];
-            int gene_written = snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
-            if (gene_written < 0 || (size_t)gene_written >= sizeof(gene)) return;
-            if ((size_t)gene_written >= remaining_size) return;
+            written = snprintf(gene, sizeof(gene), "%.2f%s", agents[i].genes[j], (j < 9) ? ", " : "");
+            if (written < 0 || (size_t)written >= sizeof(gene)) return;
+            if ((size_t)written >= remaining_size) return;
 
-            memcpy(buffer + offset, gene, gene_written);
-            offset += gene_written;
-            remaining_size -= gene_written;
+            memcpy(buffer + offset, gene, written);
+            offset += written;
+            remaining_size -= written;
         }
 
-        if ((size_t)4 >= remaining_size) return;
-        if (i < count - 1) {
-            memcpy(buffer + offset, "], ", 3);
-            offset += 3;
-            remaining_size -= 3;
-        } else {
-            memcpy(buffer + offset, "]", 1);
-            offset += 1;
-            remaining_size -= 1;
-        }
+        written = snprintf(buffer + offset, remaining_size, "] }%s", (i < count - 1) ? ", " : "");
+        if (written < 0 || (size_t)written >= remaining_size) return;
+        offset += written;
+        remaining_size -= written;
     }
 
-    if ((size_t)12 >= remaining_size) return;
-    memcpy(buffer + offset, "], \"food_grid\": [", 17);
-    offset += 17;
-    remaining_size -= 17;
+    written = snprintf(buffer + offset, remaining_size, "], \"food_grid\": [");
+    if (written < 0 || (size_t)written >= remaining_size) return;
+    offset += written;
+    remaining_size -= written;
 
     for (int i = 0; i < FOOD_TILES_ACROSS; i++) {
-        if ((size_t)2 >= remaining_size) return;
-        memcpy(buffer + offset, "[", 1);
-        offset += 1;
-        remaining_size -= 1;
+        written = snprintf(buffer + offset, remaining_size, "[");
+        if (written < 0 || (size_t)written >= remaining_size) return;
+        offset += written;
+        remaining_size -= written;
 
         for (int j = 0; j < FOOD_TILES_ACROSS; j++) {
-            char food_value[12];
-            int food_written = snprintf(food_value, sizeof(food_value), "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
-            if (food_written < 0 || (size_t)food_written >= sizeof(food_value)) return;
-            if ((size_t)food_written >= remaining_size) return;
-
-            memcpy(buffer + offset, food_value, food_written);
-            offset += food_written;
-            remaining_size -= food_written;
+            written = snprintf(buffer + offset, remaining_size, "%d%s", food_grid[i][j], (j < FOOD_TILES_ACROSS - 1) ? ", " : "");
+            if (written < 0 || (size_t)written >= remaining_size) return;
+            offset += written;
+            remaining_size -= written;
         }
 
-        if ((size_t)3 >= remaining_size) return;
-        if (i < FOOD_TILES_ACROSS - 1) {
-            memcpy(buffer + offset, "], ", 3);
-            offset += 3;
-            remaining_size -= 3;
-        } else {
-            memcpy(buffer + offset, "]", 1);
-            offset += 1;
-            remaining_size -= 1;
-        }
+        written = snprintf(buffer + offset, remaining_size, "]%s", (i < FOOD_TILES_ACROSS - 1) ? ", " : "");
+        if (written < 0 || (size_t)written >= remaining_size) return;
+        offset += written;
+        remaining_size -= written;
     }
 
-    if ((size_t)2 >= remaining_size) return;
-    memcpy(buffer + offset, "] }", 3);
-    offset += 3;
-    remaining_size -= 3;
+    written = snprintf(buffer + offset, remaining_size, "] }");
+    if (written < 0 || (size_t)written >= remaining_size) return;
+    offset += written;
+    remaining_size -= written;
 
-    // Null-terminate the buffer
     if (offset < size) buffer[offset] = '\0';
 }
+
 
 
 
