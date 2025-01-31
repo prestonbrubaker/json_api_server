@@ -67,8 +67,24 @@ void panic_callback(void *cls, const char *file, unsigned int line, const char *
     fprintf(stderr, "[libmicrohttpd] Panic in %s:%u: %s\n", file, line, reason);
 }
 
+void *agent_updater(void *arg) {
+    (void)arg;  // Unused parameter
+    while (1) {
+        update_agents(agents);
+        usleep(100000);  // Sleep for 100ms (100,000 microseconds)
+    }
+    return NULL;
+}
+
 int main() {
-    generate_agents(agents, AGENT_COUNT);
+    generate_agents(agents);
+
+    // Create a thread for updating agents
+    pthread_t updater_thread;
+    if (pthread_create(&updater_thread, NULL, agent_updater, NULL) != 0) {
+        fprintf(stderr, "Error creating updater thread\n");
+        return 1;
+    }
 
     struct MHD_Daemon *daemon;
 

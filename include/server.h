@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdarg.h>  // For va_list in log_callback
 #include <microhttpd.h>
+#include <pthread.h>
+#include <unistd.h>
 
 #define PORT 5000
 #define AGENT_COUNT 5
@@ -28,7 +30,9 @@ extern Agent agents[AGENT_COUNT];
 
 
 // Function prototypes
-void generate_agents(Agent agents[], int count);
+void generate_agents(Agent agents[]);
+void update_agents(Agent agents[]);
+void *agent_updater(void *arg);
 void generate_json(char *buffer, size_t size, Agent agents[], int count);
 enum MHD_Result request_handler(void *cls, struct MHD_Connection *connection,
                                 const char *url, const char *method, const char *version,
