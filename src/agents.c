@@ -59,7 +59,7 @@ void update_agents(Agent agents[]) {
             agents[i].y = 0.0f;
         }
 
-        if (rand() % 100 < 29 && agents[i].food > 0 && (float)(rand() % 1000) / 1000.0f < agents[i].genes[2]) {
+        if (rand() % 100 < 29 && agents[i].food > 0 || (float)(rand() % 1000) / 1000.0f < agents[i].genes[2]) {
             agents[i].food--;
         }
         if (rand() % 2 == 0) {
