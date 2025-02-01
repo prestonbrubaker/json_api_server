@@ -64,7 +64,7 @@ while running:
     for i, row in enumerate(food_grid):
         for j, food in enumerate(row):
             intensity = int((food / 100) * 255)  # Scale from 0 (black) to 255 (bright green)
-            color = (0, intensity, 0)
+            color = (intensity, 0, intensity / 2)
             pygame.draw.rect(screen, color, (i * FOOD_CELL_SIZE, j * FOOD_CELL_SIZE, FOOD_CELL_SIZE, FOOD_CELL_SIZE))
     
     # Event handling
