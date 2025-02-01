@@ -23,6 +23,9 @@ typedef struct {
     float genes[10];
 } Agent;
 
+
+
+
 // Declare the global arrays
 extern Agent agents[AGENT_COUNT];
 
